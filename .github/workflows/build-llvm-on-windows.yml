@@ -1,0 +1,34 @@
+name: Build LLVM on Windows,
+on: [workflow_dispatch]
+
+jobs:
+    build-windows-native:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install Dependencies (CMake, Ninja)
+              run: |
+                choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+                choco install ninja
+
+            - name: Configure and Build LLVM
+              run: |
+                mkdir build
+                cd build
+                cmake -G Ninja ../llvm `
+                -DCMAKE_BUILD_TYPE=Release `
+                -DLLVM_ENABLE_PROJECTS="clang" `
+                -DLLVM_TARGETS_TO_BUILD="X86" `
+                -DLLVM_ENABLE_ASSERTIONS=OFF
+                ninja
+            
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                name: llvm-windows-native
+                path: |
+                    build/bin/
+                    build/lib/
+                    build/include/
+                    llvm/include/
+                    clang/include/
