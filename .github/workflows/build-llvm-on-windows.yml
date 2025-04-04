@@ -18,8 +18,10 @@ jobs:
           cd build
           cmake -G Ninja ../llvm `
             -DCMAKE_BUILD_TYPE=Release `
-            -DLLVM_ENABLE_PROJECTS="llvm;lld" `
+            -DLLVM_ENABLE_PROJECTS="all" `
             -DLLVM_TARGETS_TO_BUILD="X86" `
+            -DLLVM_BUILD_TOOLS=ON `
+            -DLLVM_BUILD_UTILS=ON
             -DLLVM_ENABLE_ASSERTIONS=OFF
           ninja
 
@@ -28,8 +30,7 @@ jobs:
         with:
           name: llvm-windows-native
           path: |
-            build/bin/
-            build/lib/
-            build/include/
+            build/
             llvm/include/
             clang/include/
+          compression-level: 0
