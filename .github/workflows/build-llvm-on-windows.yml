@@ -20,7 +20,7 @@ jobs:
           cd build
           cmake -G Ninja ../llvm \
             -DCMAKE_BUILD_TYPE=Release \
-            -DLLVM_ENABLE_PROJECTS="all" \
+            -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;compiler-rt;cross-project-tests;lld;lldb;mlir;openmp;polly;pstl" \
             -DLLVM_TARGETS_TO_BUILD="X86" \
             -DLLVM_INSTALL_CMAKE=ON \
             -DLLVM_BUILD_TOOLS=ON \
