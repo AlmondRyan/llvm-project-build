@@ -2,15 +2,16 @@ name: Build LLVM on Windows
 on: [workflow_dispatch]
 
 jobs:
-  build-windows-native:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true  # 必须包含子模块
 
-      - name: Install Dependencies (CMake, Ninja)
+      - name: Install Dependencies
         run: |
-          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' --yes
-          choco install ninja --yes
+          choco install cmake ninja python3 --no-progress --force
 
       - name: Configure and Build LLVM
         run: |
@@ -18,19 +19,20 @@ jobs:
           cd build
           cmake -G Ninja ../llvm `
             -DCMAKE_BUILD_TYPE=Release `
-            -DLLVM_ENABLE_PROJECTS="all" `
-            -DLLVM_TARGETS_TO_BUILD="X86" `
+            -DLLVM_ENABLE_PROJECTS="all" `    
+            -DLLVM_TARGETS_TO_BUILD="X86" `  # 按需选择架构
+            -DLLVM_INSTALL_CMAKE=ON `             
             -DLLVM_BUILD_TOOLS=ON `
             -DLLVM_BUILD_UTILS=ON `
+            -DLLVM_BUILD_TESTS=OFF `
             -DLLVM_ENABLE_ASSERTIONS=OFF
           ninja
 
-      - name: Upload Artifacts
+      - name: Upload Full Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: llvm-windows-native
+          name: llvm-windows-full
           path: |
             build/
-            llvm/include/
-            clang/include/
-          compression-level: 0
+            llvm/
+            clang/
