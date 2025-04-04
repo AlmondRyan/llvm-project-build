@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true  # 必须包含子模块
+          submodules: true
 
       - name: Install Dependencies
         run: |
@@ -20,7 +20,7 @@ jobs:
           cmake -G Ninja ../llvm `
             -DCMAKE_BUILD_TYPE=Release `
             -DLLVM_ENABLE_PROJECTS="all" `    
-            -DLLVM_TARGETS_TO_BUILD="X86" `  # 按需选择架构
+            -DLLVM_TARGETS_TO_BUILD="X86" `
             -DLLVM_INSTALL_CMAKE=ON `             
             -DLLVM_BUILD_TOOLS=ON `
             -DLLVM_BUILD_UTILS=ON `
