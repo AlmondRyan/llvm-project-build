@@ -20,13 +20,16 @@ jobs:
           cd build
           cmake -G Ninja ../llvm \
             -DCMAKE_BUILD_TYPE=Release \
-            -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;compiler-rt;cross-project-tests;lld;lldb;mlir;openmp;polly;pstl" \
+            -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld;mlir;openmp;polly;pstl" \
             -DLLVM_TARGETS_TO_BUILD="X86" \
-            -DLLVM_INSTALL_CMAKE=ON \
+            -DLLVM_INSTALL_UTILS=ON \
             -DLLVM_BUILD_TOOLS=ON \
             -DLLVM_BUILD_UTILS=ON \
             -DLLVM_BUILD_TESTS=OFF \
-            -DLLVM_ENABLE_ASSERTIONS=OFF
+            -DLLVM_INCLUDE_TESTS=OFF \
+            -DLLVM_ENABLE_ASSERTIONS=OFF \
+            -DCOMPILER_RT_BUILD_SANITIZERS=OFF \
+            -DLLVM_ENABLE_THREADS=OFF
           ninja
 
       - name: Upload Full Build Artifacts
