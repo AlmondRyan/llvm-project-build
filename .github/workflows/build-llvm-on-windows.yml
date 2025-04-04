@@ -14,17 +14,18 @@ jobs:
           choco install cmake ninja python3 --no-progress --force
 
       - name: Configure and Build LLVM
+        shell: bash
         run: |
           mkdir build
           cd build
-          cmake -G Ninja ../llvm `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DLLVM_ENABLE_PROJECTS="all" `    
-            -DLLVM_TARGETS_TO_BUILD="X86" `
-            -DLLVM_INSTALL_CMAKE=ON `             
-            -DLLVM_BUILD_TOOLS=ON `
-            -DLLVM_BUILD_UTILS=ON `
-            -DLLVM_BUILD_TESTS=OFF `
+          cmake -G Ninja ../llvm \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_PROJECTS="all" \
+            -DLLVM_TARGETS_TO_BUILD="X86" \
+            -DLLVM_INSTALL_CMAKE=ON \
+            -DLLVM_BUILD_TOOLS=ON \
+            -DLLVM_BUILD_UTILS=ON \
+            -DLLVM_BUILD_TESTS=OFF \
             -DLLVM_ENABLE_ASSERTIONS=OFF
           ninja
 
